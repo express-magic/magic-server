@@ -7,6 +7,8 @@ RUN apt-get update
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
 RUN npm i -g supervisor
+RUN git clone https://github.com/jaeh/jaeh.at ./server/hosts/jaeh.at
+RUN git clone https://github.com/jaeh/bwb.is ./server/hosts/bwb.is
 
 ADD ./server /srv
 RUN cd /srv; npm install
