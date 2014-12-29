@@ -8,7 +8,6 @@ RUN apt-get install -y nodejs
 RUN apt-get install -y git
 RUN npm i -g supervisor
 
-
 ADD ./server /srv
 RUN git clone https://github.com/express-magic/magic-localhost /srv/hosts/localhost
 RUN cd /srv; npm install
