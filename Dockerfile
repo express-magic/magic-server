@@ -7,10 +7,9 @@ RUN apt-get update
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
 RUN npm i -g supervisor
-RUN git clone https://github.com/jaeh/jaeh.at ./server/hosts/jaeh.at
-RUN git clone https://github.com/jaeh/bwb.is ./server/hosts/bwb.is
+RUN git clone https://github.com/express-magic/magic-localhost ./server/hosts/localhost
 
 ADD ./server /srv
 RUN cd /srv; npm install
-EXPOSE  5000
+EXPOSE  80
 CMD cd /srv; ./dev.sh
