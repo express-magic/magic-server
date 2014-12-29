@@ -16,10 +16,6 @@ module.exports = {
     , PORT: 80
     }
   }
-  , heroku: {
-      remote: "production"
-    , staging: "staging"
-  }
   , mail: 'mail@mail.mail'
   , mailTransport: {
       host: 'localhost'
