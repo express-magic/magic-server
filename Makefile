@@ -4,13 +4,18 @@ p:='80:5000'
 d:='magic/server'
 #docker name
 n:='magic-server'
+#node_env
+env:='production'
 
 build:
+	cp -f ./Dockerfile.tmpl ./Dockerfile
+	sed -i 's/|env|/$(env)/g' ./Dockerfile
 	docker build -t $(d) .
 
 kill:
 	docker kill $(n)
 	docker rm $(n)
+	rm -f ./Dockerfile
 
 run:
 	docker run -p $(p) --name=$(n) -d $(d) 
