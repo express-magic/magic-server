@@ -1,13 +1,14 @@
-#dockerimage name
-
+#docker external/internal port
 p:='80:5000'
+#docker image ID
 d:='magic/server'
-n:='magic'
+#docker name
+n:='magic-server'
 
 build:
 	docker build -t $(d) .
 
-clean:
+kill:
 	docker kill $(n)
 	docker rm $(n)
 
