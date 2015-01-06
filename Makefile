@@ -1,32 +1,82 @@
 #docker external/internal port
-p:='80:5000'
+xport:=80
+iport:=5000
 #docker image ID
-d:='magic/server'
+magictag:='jascha/express-magic'
+hosttag:='jascha/magic-hosts'
+basetag:='jascha/magic-base'
 #docker name
-n:='magic-server'
+name:='jaeh.at'
 #node_env
 env:='production'
 
+.PHONY: \
+	build dev dev-force \
+	kill run restart re \
+	logs \
+	clearContainers clearImages \
+	install update \
+	magic-install
+
+base:
+	docker build -t $(basetag) ./dockerbase/
+basef:
+	docker build -t $(basetag) --no-cache ./dockerbase/
+
 build:
-	cp -f ./Dockerfile.tmpl ./Dockerfile
-	sed -i 's/|env|/$(env)/g' ./Dockerfile
-	docker build -t $(d) .
+	docker build -t $(magictag) ./server
+buildf:
+	docker build -t $(magictag) --no-cache ./server
+
+hosts:
+	cp -f ./hosts/Dockerfile.tmpl ./hosts/Dockerfile
+	sed -i 's/|env|/${env}/g' ./hosts/Dockerfile
+	sed -i 's/|xport|/${xport}/g' ./hosts/Dockerfile
+	docker build -t $(hosttag) ./hosts
+
+dev:
+	cp -f ./hosts/Dockerfile.tmpl ./hosts/Dockerfile
+	sed -i 's/|env|/development/g' ./hosts/Dockerfile
+	sed -i 's/|xport|/${xport}/g' ./hosts/Dockerfile
+	docker build -t $(hosttag) ./hosts
+
+devf:
+	cp -f ./hosts/Dockerfile.tmpl ./hosts/Dockerfile
+	sed -i 's/|env|/development/g' ./hosts/Dockerfile
+	sed -i 's/|xport|/${xport}/g' ./hosts/Dockerfile
+	docker build -t $(hosttag) --no-cache ./hosts
 
 kill:
-	docker kill $(n)
-	docker rm $(n)
-	rm -f ./Dockerfile
+	docker kill $(name)
+	docker rm $(name)
 
 run:
-	docker run -p $(p) --name=$(n) -d $(d) 
+	docker run \
+	-p $(xport):$(iport) \
+	--name $(name) \
+	-d $(hosttag)
+
+restart: kill run
+
+re: kill run
 
 logs:
-	docker logs $(n)
+	docker logs $(name)
 
-restart:
-	docker kill $(n)
-	docker rm $(n)
-	docker run -p $(p) --name=$(n) -d $(d) 
+rmContainers:
+	docker rm $(shell docker ps -a -q)
 
-all:
-	build;
+rmImages:
+	docker rmi $(shell docker images -q)
+
+install:
+	su -c 'apt-get update && \
+	apt-get install docker.io && \
+	source /etc/bash_completion.d/docker.io'
+
+update:
+	git pull
+
+rebuild: base build dev restart
+rebuildf: basef buildf dev restart
+all: rebuild
