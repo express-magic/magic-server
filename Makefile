@@ -56,9 +56,20 @@ run:
 	--name $(name) \
 	-d $(hosttag)
 
-restart: kill run
 
+drun: dev run
+drunf: devf run
+
+restart: kill run
 re: kill run
+devrestart: dev kill run
+devre: devrestart
+dr: devrestart
+de: devrestart
+
+devrestartf: devf kill run
+devref: devrestartf
+drf: devrestartf
 
 logs:
 	docker logs $(name)
