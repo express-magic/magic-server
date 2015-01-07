@@ -17,10 +17,9 @@ cd ..
 make install 
 #if you use a different linux just install docker yourself.
     
-#build the base, express-magic and hosts docker containers
-make all
-#docker run the container
-make run
+#build the base, express-magic and hosts docker containers and run them
+make prepare
+
 #check container logs to verify it is running correctly:
 make logs
 #the last line of log output should tell you that express listens to port 5000.
