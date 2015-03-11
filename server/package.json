@@ -2,10 +2,14 @@
   "name": "magic-server",
   "version": "0.0.1",
   "private": true,
+  "script": {
+    "start": "babel src/ --out-file app.js --experimental --source-maps"
+  },
   "dependencies": {
-    "express": "^4.10.6",
-    "express-magic": "git://github.com/express-magic/express-magic",
-    "jade": "^1.8.2"
+    "express": "../node_modules/express",
+    "express-magic": "file:../magic-lib/express-magic",
+    "jade": "file:../node_modules/jade",
+    "magic-cache": "file:../magic-lib/magic-cache"
   },
   "repository": {
     "type": "git",
