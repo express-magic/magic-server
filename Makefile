@@ -138,8 +138,7 @@ rmImages:
 	docker rmi $(shell docker images -q)
 
 install:
-	su -c 'apt-get update && \
-	apt-get install docker.io && \
+	su -c 'apt-get update && apt-get install docker.io git make && \
 	source /etc/bash_completion.d/docker.io'
 
 update:

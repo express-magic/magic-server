@@ -9,10 +9,13 @@ getting started:
 git clone https://github.com/express-magic/magic-server
 #cd to the hosts directory to install the magic-hosts
 cd magic-server/hosts 
-#install magic-localhost, change hosts/Makefile to load different hosts
-make install
+#install magic-localhost
+git clone https://github.com/express-magic/magic-localhost
 #back to the root folder
 cd .. 
+
+#install needed magic-lib and node_modules
+make prepare
 
 #if you do not have docker installed and are using ubuntu
 make install 
